@@ -98,18 +98,30 @@ const features = [
 function Landing() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
-  // Bento: assign each gallery image a layout slot
-  const bento = useMemo(
-    () => [
-      { img: galleryImages[0], cls: "md:col-span-2 md:row-span-2 aspect-[4/3] md:aspect-auto" },
-      { img: galleryImages[1], cls: "aspect-square" },
-      { img: galleryImages[2], cls: "aspect-square" },
-      { img: galleryImages[3], cls: "aspect-square" },
-      { img: galleryImages[4], cls: "aspect-square" },
-      { img: galleryImages[5], cls: "md:col-span-2 aspect-[16/9]" },
-    ],
-    []
-  );
+  // Bento: layout slots for each gallery item (images + videos)
+  const bento = useMemo(() => {
+    const slots: string[] = [
+      "md:col-span-2 md:row-span-2",
+      "",
+      "",
+      "",
+      "",
+      "md:col-span-2",
+      "",
+      "",
+      "",
+      "md:col-span-2",
+      "",
+      "",
+      "md:col-span-2 md:row-span-2",
+      "",
+      "",
+    ];
+    return galleryImages.map((img, i) => ({
+      img,
+      cls: slots[i] ?? "",
+    }));
+  }, []);
 
   return (
     <main className="min-h-screen bg-white text-slate-900">
