@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Waves, UtensilsCrossed, Sparkles, TrendingUp,
-  MapPin, Phone, MessageCircle, Calendar, ArrowDown,
+  MapPin, Phone, MessageCircle, Calendar, ArrowDown, Play,
 } from "lucide-react";
 import { Lightbox, type LightboxImage } from "@/components/Lightbox";
 import { FadeIn } from "@/components/FadeIn";
@@ -18,7 +18,19 @@ import bedroom2 from "@/assets/bedroom-2.jpg";
 import walkin from "@/assets/walkin-closet.jpg";
 import bath1 from "@/assets/bathroom-1.jpg";
 import bath2 from "@/assets/bathroom-2.jpg";
-import agentPortrait from "@/assets/agent-ligia.jpg";
+import extra1 from "@/assets/extra-1.jpg";
+import extra2 from "@/assets/extra-2.jpg";
+import extra3 from "@/assets/extra-3.jpg";
+import extra4 from "@/assets/extra-4.jpg";
+import extra5 from "@/assets/extra-5.jpg";
+
+const videos = [
+  { src: "/videos/tour-1.mp4", poster: extra1 },
+  { src: "/videos/tour-2.mp4", poster: extra2 },
+  { src: "/videos/tour-3.mp4", poster: extra3 },
+  { src: "/videos/tour-4.mp4", poster: extra4 },
+  { src: "/videos/tour-5.mp4", poster: extra5 },
+];
 
 const PHONE = "+50587607418";
 const PHONE_DISPLAY = "+505 8760-7418";
@@ -54,6 +66,17 @@ const galleryImages: LightboxImage[] = [
   { src: kitchen2, alt: "Cocina equipada con isla y barra" },
   { src: living2, alt: "Sala de estar con cielo raso decorativo" },
   { src: bath2, alt: "Baño secundario con ducha de vidrio" },
+  { src: extra1, alt: "Terraza con bar y pérgola de madera" },
+  { src: extra2, alt: "Fachada posterior con jardín amplio" },
+  { src: extra3, alt: "Vista a la piscina desde la terraza techada" },
+  { src: extra4, alt: "Sala abierta con vista al jardín y piscina" },
+  { src: extra5, alt: "Piscina privada con mosaico azul" },
+  ...videos.map((v, i) => ({
+    src: v.src,
+    poster: v.poster,
+    type: "video" as const,
+    alt: `Video tour ${i + 1} de la propiedad`,
+  })),
 ];
 
 const stats = [
@@ -75,18 +98,30 @@ const features = [
 function Landing() {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
-  // Bento: assign each gallery image a layout slot
-  const bento = useMemo(
-    () => [
-      { img: galleryImages[0], cls: "md:col-span-2 md:row-span-2 aspect-[4/3] md:aspect-auto" },
-      { img: galleryImages[1], cls: "aspect-square" },
-      { img: galleryImages[2], cls: "aspect-square" },
-      { img: galleryImages[3], cls: "aspect-square" },
-      { img: galleryImages[4], cls: "aspect-square" },
-      { img: galleryImages[5], cls: "md:col-span-2 aspect-[16/9]" },
-    ],
-    []
-  );
+  // Bento: layout slots for each gallery item (images + videos)
+  const bento = useMemo(() => {
+    const slots: string[] = [
+      "md:col-span-2 md:row-span-2",
+      "",
+      "",
+      "",
+      "",
+      "md:col-span-2",
+      "",
+      "",
+      "",
+      "md:col-span-2",
+      "",
+      "",
+      "md:col-span-2 md:row-span-2",
+      "",
+      "",
+    ];
+    return galleryImages.map((img, i) => ({
+      img,
+      cls: slots[i] ?? "",
+    }));
+  }, []);
 
   return (
     <main className="min-h-screen bg-white text-slate-900">
@@ -219,22 +254,35 @@ function Landing() {
 
           <div className="grid auto-rows-[180px] grid-cols-2 gap-3 md:auto-rows-[220px] md:grid-cols-4 md:gap-4">
             {bento.map((item, i) => {
-              const galleryIdx = galleryImages.indexOf(item.img);
+              const isVideo = item.img.type === "video";
+              const thumb = item.img.poster ?? item.img.src;
               return (
                 <FadeIn
                   key={i}
-                  delay={i * 0.07}
+                  delay={i * 0.05}
                   className={`group relative cursor-pointer overflow-hidden rounded-lg ring-1 ring-slate-200 ${item.cls}`}
-                  onClick={() => setLightboxIndex(galleryIdx)}
-                  style={{ gridColumn: item.cls.includes("col-span-2") ? undefined : undefined }}
+                  onClick={() => setLightboxIndex(i)}
                 >
-                  <div className={`relative h-full w-full overflow-hidden rounded-lg`}>
+                  <div className="relative h-full w-full overflow-hidden rounded-lg">
                     <img
-                      src={item.img.src}
+                      src={thumb}
                       alt={item.img.alt}
                       className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                       loading="lazy"
                     />
+                    {isVideo && (
+                      <>
+                        <div className="absolute inset-0 bg-slate-950/30" />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-amber-600/95 text-white shadow-xl ring-4 ring-white/30 transition group-hover:scale-110 md:h-16 md:w-16">
+                            <Play className="ml-0.5 h-6 w-6 fill-current" />
+                          </div>
+                        </div>
+                        <div className="absolute left-3 top-3 rounded-full bg-slate-950/70 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">
+                          Video
+                        </div>
+                      </>
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                     <div className="absolute inset-x-0 bottom-0 translate-y-2 p-4 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
                       <p className="text-sm font-medium text-white">{item.img.alt}</p>
@@ -251,7 +299,7 @@ function Landing() {
               onClick={() => setLightboxIndex(0)}
               className="inline-flex items-center gap-2 rounded-full border border-slate-900 px-6 py-3 text-sm font-medium text-slate-900 transition hover:bg-slate-900 hover:text-white"
             >
-              Ver las {galleryImages.length} fotos
+              Ver galería completa ({galleryImages.length})
             </button>
           </FadeIn>
         </div>
@@ -289,18 +337,7 @@ function Landing() {
         <div className="absolute inset-0 opacity-10" style={{
           background: "radial-gradient(circle at 30% 20%, oklch(0.72 0.14 70) 0%, transparent 50%), radial-gradient(circle at 80% 80%, oklch(0.72 0.14 70) 0%, transparent 50%)"
         }} />
-        <div className="relative mx-auto grid max-w-5xl items-center gap-12 md:grid-cols-2 md:gap-20">
-          <FadeIn className="flex justify-center md:justify-end">
-            <div className="relative">
-              <div className="absolute -inset-3 rounded-full bg-gradient-to-tr from-amber-600 to-amber-300 blur-2xl opacity-40" />
-              <img
-                src={agentPortrait}
-                alt="Ligia Donaire, agente inmobiliaria"
-                className="relative h-64 w-64 rounded-full object-cover ring-4 ring-amber-600/30 md:h-80 md:w-80"
-              />
-            </div>
-          </FadeIn>
-
+        <div className="relative mx-auto max-w-3xl text-center">
           <FadeIn delay={0.15}>
             <span className="text-xs font-semibold uppercase tracking-[0.25em] text-amber-400">Tu Agente Exclusivo</span>
             <h2 className="mt-3 font-serif text-3xl md:text-5xl">Ligia Donaire</h2>
