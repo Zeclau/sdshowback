@@ -66,6 +66,17 @@ const galleryImages: LightboxImage[] = [
   { src: kitchen2, alt: "Cocina equipada con isla y barra" },
   { src: living2, alt: "Sala de estar con cielo raso decorativo" },
   { src: bath2, alt: "Baño secundario con ducha de vidrio" },
+  { src: extra1, alt: "Terraza con bar y pérgola de madera" },
+  { src: extra2, alt: "Fachada posterior con jardín amplio" },
+  { src: extra3, alt: "Vista a la piscina desde la terraza techada" },
+  { src: extra4, alt: "Sala abierta con vista al jardín y piscina" },
+  { src: extra5, alt: "Piscina privada con mosaico azul" },
+  ...videos.map((v, i) => ({
+    src: v.src,
+    poster: v.poster,
+    type: "video" as const,
+    alt: `Video tour ${i + 1} de la propiedad`,
+  })),
 ];
 
 const stats = [
