@@ -2,7 +2,12 @@ import { useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
-export type LightboxImage = { src: string; alt: string };
+export type LightboxImage = {
+  src: string;
+  alt: string;
+  type?: "image" | "video";
+  poster?: string;
+};
 
 interface LightboxProps {
   images: LightboxImage[];
@@ -27,9 +32,11 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
     };
   }, [index, images.length, onClose, onIndexChange]);
 
+  const current = index !== null ? images[index] : null;
+
   return (
     <AnimatePresence>
-      {index !== null && (
+      {index !== null && current && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -58,16 +65,32 @@ export function Lightbox({ images, index, onClose, onIndexChange }: LightboxProp
           >
             <ChevronRight className="h-6 w-6" />
           </button>
-          <motion.img
-            key={index}
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.25 }}
-            src={images[index].src}
-            alt={images[index].alt}
-            className="max-h-[88vh] max-w-[92vw] rounded-lg object-contain shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          />
+          {current.type === "video" ? (
+            <motion.video
+              key={index}
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.25 }}
+              src={current.src}
+              poster={current.poster}
+              controls
+              autoPlay
+              playsInline
+              className="max-h-[88vh] max-w-[92vw] rounded-lg object-contain shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            />
+          ) : (
+            <motion.img
+              key={index}
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.25 }}
+              src={current.src}
+              alt={current.alt}
+              className="max-h-[88vh] max-w-[92vw] rounded-lg object-contain shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            />
+          )}
           <div className="absolute bottom-6 left-1/2 -translate-x-1/2 rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium text-white">
             {index + 1} / {images.length}
           </div>
