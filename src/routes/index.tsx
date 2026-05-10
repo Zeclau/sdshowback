@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
   Waves, UtensilsCrossed, Sparkles, TrendingUp,
-  MapPin, Phone, MessageCircle, Calendar, ArrowDown,
+  MapPin, Phone, MessageCircle, Calendar, ArrowDown, Play,
 } from "lucide-react";
 import { Lightbox, type LightboxImage } from "@/components/Lightbox";
 import { FadeIn } from "@/components/FadeIn";
@@ -18,7 +18,19 @@ import bedroom2 from "@/assets/bedroom-2.jpg";
 import walkin from "@/assets/walkin-closet.jpg";
 import bath1 from "@/assets/bathroom-1.jpg";
 import bath2 from "@/assets/bathroom-2.jpg";
-import agentPortrait from "@/assets/agent-ligia.jpg";
+import extra1 from "@/assets/extra-1.jpg";
+import extra2 from "@/assets/extra-2.jpg";
+import extra3 from "@/assets/extra-3.jpg";
+import extra4 from "@/assets/extra-4.jpg";
+import extra5 from "@/assets/extra-5.jpg";
+
+const videos = [
+  { src: "/videos/tour-1.mp4", poster: extra1 },
+  { src: "/videos/tour-2.mp4", poster: extra2 },
+  { src: "/videos/tour-3.mp4", poster: extra3 },
+  { src: "/videos/tour-4.mp4", poster: extra4 },
+  { src: "/videos/tour-5.mp4", poster: extra5 },
+];
 
 const PHONE = "+50587607418";
 const PHONE_DISPLAY = "+505 8760-7418";
