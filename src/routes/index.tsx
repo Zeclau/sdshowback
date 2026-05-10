@@ -299,7 +299,7 @@ function Landing() {
               onClick={() => setLightboxIndex(0)}
               className="inline-flex items-center gap-2 rounded-full border border-slate-900 px-6 py-3 text-sm font-medium text-slate-900 transition hover:bg-slate-900 hover:text-white"
             >
-              Ver las {galleryImages.length} fotos
+              Ver galería completa ({galleryImages.length})
             </button>
           </FadeIn>
         </div>
