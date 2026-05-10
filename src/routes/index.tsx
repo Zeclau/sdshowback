@@ -312,18 +312,7 @@ function Landing() {
         <div className="absolute inset-0 opacity-10" style={{
           background: "radial-gradient(circle at 30% 20%, oklch(0.72 0.14 70) 0%, transparent 50%), radial-gradient(circle at 80% 80%, oklch(0.72 0.14 70) 0%, transparent 50%)"
         }} />
-        <div className="relative mx-auto grid max-w-5xl items-center gap-12 md:grid-cols-2 md:gap-20">
-          <FadeIn className="flex justify-center md:justify-end">
-            <div className="relative">
-              <div className="absolute -inset-3 rounded-full bg-gradient-to-tr from-amber-600 to-amber-300 blur-2xl opacity-40" />
-              <img
-                src={agentPortrait}
-                alt="Ligia Donaire, agente inmobiliaria"
-                className="relative h-64 w-64 rounded-full object-cover ring-4 ring-amber-600/30 md:h-80 md:w-80"
-              />
-            </div>
-          </FadeIn>
-
+        <div className="relative mx-auto max-w-3xl text-center">
           <FadeIn delay={0.15}>
             <span className="text-xs font-semibold uppercase tracking-[0.25em] text-amber-400">Tu Agente Exclusivo</span>
             <h2 className="mt-3 font-serif text-3xl md:text-5xl">Ligia Donaire</h2>
