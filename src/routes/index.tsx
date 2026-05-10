@@ -254,22 +254,35 @@ function Landing() {
 
           <div className="grid auto-rows-[180px] grid-cols-2 gap-3 md:auto-rows-[220px] md:grid-cols-4 md:gap-4">
             {bento.map((item, i) => {
-              const galleryIdx = galleryImages.indexOf(item.img);
+              const isVideo = item.img.type === "video";
+              const thumb = item.img.poster ?? item.img.src;
               return (
                 <FadeIn
                   key={i}
-                  delay={i * 0.07}
+                  delay={i * 0.05}
                   className={`group relative cursor-pointer overflow-hidden rounded-lg ring-1 ring-slate-200 ${item.cls}`}
-                  onClick={() => setLightboxIndex(galleryIdx)}
-                  style={{ gridColumn: item.cls.includes("col-span-2") ? undefined : undefined }}
+                  onClick={() => setLightboxIndex(i)}
                 >
-                  <div className={`relative h-full w-full overflow-hidden rounded-lg`}>
+                  <div className="relative h-full w-full overflow-hidden rounded-lg">
                     <img
-                      src={item.img.src}
+                      src={thumb}
                       alt={item.img.alt}
                       className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                       loading="lazy"
                     />
+                    {isVideo && (
+                      <>
+                        <div className="absolute inset-0 bg-slate-950/30" />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-amber-600/95 text-white shadow-xl ring-4 ring-white/30 transition group-hover:scale-110 md:h-16 md:w-16">
+                            <Play className="ml-0.5 h-6 w-6 fill-current" />
+                          </div>
+                        </div>
+                        <div className="absolute left-3 top-3 rounded-full bg-slate-950/70 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">
+                          Video
+                        </div>
+                      </>
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                     <div className="absolute inset-x-0 bottom-0 translate-y-2 p-4 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
                       <p className="text-sm font-medium text-white">{item.img.alt}</p>
